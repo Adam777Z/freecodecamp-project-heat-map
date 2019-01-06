@@ -8,18 +8,18 @@ d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 	const w = 1032;
 	const h = 500;
 	const padding = 60;
-	
+
 	d3.select('#base-temperature').html(baseTemperature);
-	
+
 	const tooltip = d3.select('body')
 									.append('div')
 									.attr('id', 'tooltip');
-	
+
 	const svg = d3.select('#canvas')
 								.append('svg')
 								.attr('width', w)
 								.attr('height', h);
-	
+
 	const colorScale = d3.scaleThreshold()
 												.domain((function(min, max, count) {
 													let array = [];
@@ -31,19 +31,19 @@ d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 													return array;
 												})(d3.min(dataset.map(d => baseTemperature + d['variance'])), d3.max(dataset.map(d => baseTemperature + d['variance'])), d3.schemeRdYlBu[11].length))
 												.range(d3.schemeRdYlBu[11].slice().reverse());
-	
+
 	const legendScale = d3.scaleLinear()
 												.domain(d3.extent(dataset.map(d => baseTemperature + d['variance'])))
 												.range([padding, (w / 2) - padding]);
-	
+
 	const legendScaleAxis = d3.axisBottom(legendScale)
 														.tickValues(colorScale.domain())
 														.tickFormat(d3.format('.1f'));
-	
+
 	const legend = svg.append('g')
 		.attr('id', 'legend')
 		.attr('transform', 'translate(' + (w / 4) + ', 0)');
-	
+
 	legend.append('g')
 				.selectAll('rect')
 				.data(colorScale.range().map(function(color) {
@@ -59,16 +59,16 @@ d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 				.attr('y', 16)
 				.attr('width', (d, i) => legendScale(d[1]) - legendScale(d[0]))
 				.attr('height', (d, i) => 20);
-	
+
 	legend.append('g')
 				.attr('transform', 'translate(0, 36)')
 				.call(legendScaleAxis);
-	
+
 	legend.append('text')             
 			.attr('transform', 'translate(' + (w / 4) + ', 11)')
 			.style('text-anchor', 'middle')
 			.text('Temperature (°C)');
-	
+
 	const xScale = d3.scaleBand()
 										.domain(dataset.map(d => d['year']))
 										.range([padding, w - padding]);
@@ -76,14 +76,14 @@ d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 	const yScale = d3.scaleBand()
 										.domain(d3.range(1, 13))
 										.range([h - padding, padding]);
-	
+
 	const yScaleAxis = d3.scaleBand()
 												.domain(d3.range(1, 13))
 												.range([padding, h - padding]);
-	
+
 	const xAxis = d3.axisBottom(xScale)
 									.tickValues(xScale.domain().filter((year) => year % 10 === 0));
-	
+
 	const yAxis = d3.axisLeft(yScaleAxis)
 									.tickFormat(month => d3.timeFormat('%B')(new Date(0, month-1)));
 
@@ -91,7 +91,7 @@ d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 			.attr('id', 'x-axis')
 			.attr('transform', 'translate(0, ' + (h - padding) + ')')
 			.call(xAxis);
-	
+
 	svg.append('text')             
 			.attr('transform', 'translate(' + (w / 2) + ', ' + (h - 10) + ')')
 			.style('text-anchor', 'middle')
@@ -101,7 +101,7 @@ d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 			.attr('id', 'y-axis')
 			.attr('transform', 'translate(' + padding + ', 0)')
 			.call(yAxis);
-	
+
 	svg.append('text')
 			.attr('transform', 'rotate(-90)')
 			.attr('y', 0)
