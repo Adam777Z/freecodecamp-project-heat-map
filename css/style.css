@@ -7,10 +7,10 @@
 	border-radius: .3rem;
 }
 
-.cell {
-/* 	fill: lightgray; */
-/* 	stroke: black; */
-}
+/* .cell {
+	fill: lightgray;
+	stroke: black;
+} */
 
 .cell:hover {
 	stroke: black;
