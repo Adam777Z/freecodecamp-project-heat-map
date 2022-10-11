@@ -2,7 +2,7 @@ const projectName = 'heat-map';
 localStorage.setItem('example_project', 'Heat Map');
 
 document.addEventListener('DOMContentLoaded', function(event) {
-	d3.json('./json/global-temperature.json').then(function(data) {
+	d3.json('./assets/json/global-temperature.json').then(function(data) {
 		const baseTemperature = data['baseTemperature'];
 		const dataset = data['monthlyVariance'];
 
