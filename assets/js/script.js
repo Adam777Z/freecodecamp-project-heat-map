@@ -1,8 +1,8 @@
 const projectName = 'heat-map';
 localStorage.setItem('example_project', 'Heat Map');
 
-document.addEventListener('DOMContentLoaded', function(event) {
-	d3.json('./assets/json/global-temperature.json').then(function(data) {
+document.addEventListener('DOMContentLoaded', (event) => {
+	d3.json('./assets/json/global-temperature.json').then((data) => {
 		const baseTemperature = data['baseTemperature'];
 		const dataset = data['monthlyVariance'];
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 								.attr('height', h);
 
 		const colorScale = d3.scaleThreshold()
-								.domain((function(min, max, count) {
+								.domain(((min, max, count) => {
 									let array = [];
 									let step = (max-min) / count;
 									let base = min;
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 		legend.append('g')
 		.selectAll('rect')
-		.data(colorScale.range().map(function(color) {
+		.data(colorScale.range().map((color) => {
 			let d = colorScale.invertExtent(color);
 			if (d[0] == null) { d[0] = legendScale.domain()[0]; };
 			if (d[1] == null) { d[1] = legendScale.domain()[1]; };
